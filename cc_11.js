@@ -14,10 +14,6 @@ class Book { // Book Class
     };
 }
 
-const book1 = new Book("The Great Gatsby", "F. Scott Fitzgerald", 123456, 5); // Test
-console.log(book1.getDetails()); // Expected output: "Title: The Great Gatsby, Author: F. Scott Fitzgerald, ISBN: 123456, Copies: 5"
-book1.updateCopies(-1); // Test
-console.log(book1.getDetails()); // Expected output: "Title: The Great Gatsby, Author: F. Scott Fitzgerald, ISBN: 123456, Copies: 4"
 
 // Task 2 Creating a borrower class
 
@@ -43,13 +39,6 @@ class Borrower {
         }
     }
 }
-// Test 
-const borrower1 = new Borrower("Alice Johnson", 201);
-borrower1.borrowBook("The Great Gatsby");
-console.log(borrower1.borrowedBooks); // Expected output: ["The Great Gatsby"]
-
-borrower1.returnBook("The Great Gatsby");
-console.log(borrower1.borrowedBooks); // Expected output: []
 
 // Task 3 Creating a library class
 
@@ -64,11 +53,63 @@ class Library { // Libary class with books and borrowers array
     listBooks() { // Method to list books
         this.books.forEach(book => {console.log(book.getDetails()); // Log details of books
         });
-    };    
-}
+    };  
 
-// Test data
+    lendBook(borrowerID, isbn) { // Method to lend books
+        const borrower = this.borrowers.find(b => b.borrowerID === borrowerID); // Find borrower by id
+        const book = this.books.find(b => b.isbn === isbn); // Find book by isbn
+
+        if (book && borrower) { // Book and borrower exist
+            if (book.copies > 0) { // If available copies
+                book.updateCopies(-1); // Update copies of avaialble book
+                borrower.borrowBookbook(book); // Lend book to borrower
+                console.log(`${book.title} is lent to ${borrower.name}`); // Message when book is lent
+            } else {
+                console.log(`${book.title} is unavailable`); // Message if book is unavailable 
+            }
+        }
+    }
+
+    
+    }
+        
+}
+// Test Data Task 1
+const book1 = new Book("The Great Gatsby", "F. Scott Fitzgerald", 123456, 5);
+console.log(book1.getDetails()); // Expected output: "Title: The Great Gatsby, Author: F. Scott Fitzgerald, ISBN: 123456, Copies: 5"
+
+book1.updateCopies(-1);
+console.log(book1.getDetails()); // Expected output: "Title: The Great Gatsby, Author: F. Scott Fitzgerald, ISBN: 123456, Copies: 4"
+
+// Test Data Task 2
+
+const borrower1 = new Borrower("Alice Johnson", 201);
+borrower1.borrowBook("The Great Gatsby");
+console.log(borrower1.borrowedBooks); // Expected output: ["The Great Gatsby"]
+
+borrower1.returnBook("The Great Gatsby");
+console.log(borrower1.borrowedBooks); // Expected output: []
+
+// Test Data Task 3
+
 const library = new Library();
 library.addBook(book1);
 library.listBooks(); // Expected output: "Title: The Great Gatsby, Author: F. Scott Fitzgerald, ISBN: 123456, Copies: 4"
+
+// Task Data Task 4
+
+library.lendBook(201, 123456);
+console.log(book1.getDetails()); // Expected output: "Title: The Great Gatsby, Author: F. Scott Fitzgerald, ISBN: 123456, Copies: 3"
+console.log(borrower1.borrowedBooks); // Expected output: ["The Great Gatsby"]
+
+// Task Data Task 5
+
+library.returnBook(201, 123456);
+console.log(book1.getDetails()); // Expected output: "Title: The Great Gatsby, Author: F. Scott Fitzgerald, ISBN: 123456, Copies: 4"
+console.log(borrower1.borrowedBooks); // Expected output: []
+
+
+
+
+
 
