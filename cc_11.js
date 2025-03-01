@@ -70,7 +70,19 @@ class Library { // Libary class with books and borrowers array
         }
     }
 
-    
+    returnBook(borrowerID, isbn) { // Method to return books 
+        const borrower = this.borrowers.find(b => b.borrowerID === borrowerID); // Find borrower by id
+        const book = this.books.find(b => b.isbn === isbn); // Find book by isbn
+        if (book && borrower) {
+            if (borrower.borrowedBooks.includes(book)) { // Check if borrower has book
+                borrower.returnBook(book); // Remove book from borrower
+                book.updateCopies(1); // Increase copies by 1
+                console.log(`${book.title} has been returned`); // Message when book is returned
+            } else {
+                console.log(`${book.title} hasn't been borrowed by ${borrower.name}`) // Message if book hasn't been borrower
+            }
+            
+        }
     }
         
 }
